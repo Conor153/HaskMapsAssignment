@@ -67,7 +67,7 @@ public class HashTableDivideAndConquer {
     /**
      * function to search the table
      * @param key which is the value to be searched
-     * @return boolean true if item is in the table, false if item is not in the table
+     * @return boolean true if key is in the table, false if key is not in the table
      * */
     public boolean search(String key) {
         int hashPosition = hash(key);
@@ -98,6 +98,7 @@ public class HashTableDivideAndConquer {
                 table[hashPosition] = null;
                 size--;
                 rehash();
+                System.out.println("Conor Callaghan L00173495 Deleted " + key); // true
                 return;
             }
             hashPosition = (hashPosition+1) % capacity;
@@ -105,61 +106,77 @@ public class HashTableDivideAndConquer {
     }
 
     /**
-     * function to resize the table and rehash the items
+     * function to resize the table and rehash the keys
      * */
-    // Divide and Conquer Resize: Rehash the table by dividing the task into smaller chunks
     private void resize() {
         capacity = capacity*2;
         String[] tempTable = table;
         this.table = new String[capacity];
         size = 0;
-        for(String t: tempTable)
-        {
-            if(t != null)
-                insert(t);
-        }
+        divideAndConquer(tempTable, 0, tempTable.length - 1);
     }
 
     /**
-     * function to rehash the items in the table
+     * function to rehash the keys in the table
      * */
-    // Rehash remaining elements to fill gaps after a deletion (Divide and Conquer Approach)
     private void rehash() {
         String[] tempTable = table;
         this.table = new String[capacity];
         size = 0;
-        for(String t: tempTable)
+        divideAndConquer(tempTable, 0, tempTable.length - 1);
+    }
+
+    /**
+     * function to recursively divide the table and rehash the elements
+     * source of code https://www.geeksforgeeks.org/dsa/merge-sort/
+     * This source code was used to divide the array into smaller chunks
+     * modified to change variable names as well as incorporate rehashing keys in the table
+     * @param tempTable the old table that is to be rehashed
+     * @param firstIndex First index of the dived portion
+     * @param lastIndex Last index of the divided portion
+     * */
+    private void divideAndConquer(String[] tempTable, int firstIndex, int lastIndex) {
+        //If first index and last index are equal
+        if(firstIndex == lastIndex)
         {
-            if(t != null)
-                insert(t);
+            //Insert the key into the table where it will be rehashed
+            if(tempTable[firstIndex] != null)
+                insert(tempTable[firstIndex]);
+            return;
         }
+        //Get the midpoint of the current divided
+        //recursively recall
+        int midpoint = (firstIndex + lastIndex)/2;
+        divideAndConquer(tempTable, firstIndex, midpoint);
+        divideAndConquer(tempTable, midpoint+1, lastIndex);
     }
 
     /**
      * function to print the table
      * */
     public void printTable() {
-        System.out.println("Printing Hash Table L00173495");
+        System.out.println("Printing Hash Table L00173495 Conor Callaghan");
         int count = 0;
         for(String t: table)
         {
             System.out.println("#"+count+++" "+t);
         }
-        System.out.println("HashTable Printed for L00173495");
+        System.out.println("HashTable Printed for L00173495 Conor Callaghan");
         System.out.println();
     }
 
     public static void main(String[] args) {
         HashTableDivideAndConquer unihashTable = new HashTableDivideAndConquer(20);
-// Insert keys
+        //Insert 5 keys by default
         unihashTable.insert("ATU Letterkenny");
         unihashTable.insert("ATU Killybegs");
         unihashTable.insert("ATU Sligo");
         unihashTable.insert("ATU Galway Mayo");
         unihashTable.insert("ATU Killybegs");
-
+        //Print the keys
+        System.out.println("Print Table");
         unihashTable.printTable();
-
+        //Insert the keys until load factor is met
         unihashTable.insert("UCD");
         unihashTable.insert("Trinity College");
         unihashTable.insert("Queens Belfast");
@@ -173,24 +190,33 @@ public class HashTableDivideAndConquer {
         unihashTable.insert("South East Technological University");
 
         unihashTable.insert("Shannon College");
+        System.out.println();
+        System.out.println("Print Table before Resize");
+        unihashTable.printTable();
         unihashTable.insert("Thurles College");
         System.out.println("Load factor is greater than 75% of the table capacity");
         System.out.println("Table capacity will be doubled and items rehashed");
+        //Load factor exceeded so table should resize
+        System.out.println();
+        System.out.println("Print Table after resize");
         unihashTable.printTable();
         unihashTable.insert("Maynooth University");
         unihashTable.insert("Dun Laoghaire IT");
         unihashTable.insert("Strandmillis University College");
-
-// Print the hash table
+        System.out.println();
+        System.out.println("Print Table after 20 items inserted");
         unihashTable.printTable();
-//// Search for a key
+        //Search for items in the table
         System.out.println("L00173495 Is 'ATU Sligo' in the table? " + unihashTable.search("ATU Sligo")); // true
         System.out.println("L00173495 Is 'ATU Dundalk' in the table? " + unihashTable.search("ATU Dundalk"));
         System.out.println();
-//// false
-//// Delete a key
+        //Delete items from table and search again
         unihashTable.delete("ATU Galway Mayo");
-        unihashTable.delete("ATU Killybegs");
+        unihashTable.delete("Ulster University");
+        System.out.println("Conor Callaghan L00173495 Is 'ATU Galway Mayo' in the table? " + unihashTable.search("ATU Galway Mayo")); // true
+        System.out.println("Conor Callaghan L00173495 Is 'Ulster University' in the table? " + unihashTable.search("Ulster University"));
+        System.out.println();
+        System.out.println("Print Table after deletions");
         unihashTable.printTable();
     }
 }

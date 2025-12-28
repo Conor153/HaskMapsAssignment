@@ -147,7 +147,8 @@ class LRUCache {
             moveToFront(node);
             return node.value;
         }
-        return -1; // Key not found
+        //Key not found
+        return -1;
     }
 
     /**
@@ -176,19 +177,20 @@ class LRUCache {
      * */
     public void printCache() {
         Node temp = head;
+        System.out.println("L00173495 Conor Callaghan Cache");
         while(temp != null)
         {
             System.out.print(temp.value + " ---> ");
             temp = temp.next;
         }
-        System.out.println("END");
+        System.out.println("END L00173495 Conor Callaghan");
 
     }
 
     // Main method to test the LRU Cache implementation
     public static void main(String[] args) {
         LRUCache lruCache = new LRUCache(20); // Cache capacity of 20
-// Insert items
+        // Insert items into cache
         lruCache.put(1, 101111);
         lruCache.put(2, 101222);
         lruCache.put(3, 101333);
@@ -212,24 +214,39 @@ class LRUCache {
         lruCache.put(18, 102888);
         lruCache.put(19, 102999);
         lruCache.put(20, 103000);
-
+        //Print the cache
+        System.out.println("Print Original Cache");
         lruCache.printCache();
-// Access key 2 (this will make key 2 the most recently used)
+        // Access key 2 (this will make key 2 the most recently used)
         System.out.println("Get 2: " + lruCache.get(2)); // Should return 2
+        //Print the cache
+        System.out.println();
+        System.out.println("Print Cache after 2 has been accessed");
         lruCache.printCache();
-// Insert a new key, which will evict key 1 (the LRU)
+        // Insert a new key, which will evict key 1 (the LRU)
+        System.out.println();
+        System.out.println("Print Cache after new Node added 1 is last and gets removed");
         lruCache.put(21, 103111);
         lruCache.printCache();
-// Access key 3
-        System.out.println("Get 3: " + lruCache.get(21));
+        // Access key 20
+        System.out.println();
+        System.out.println("Print Cache after 20 has been accessed");
+        System.out.println("Get 20: " + lruCache.get(20));
         lruCache.printCache();
-// Insert another new key, which will evict key 2 (the LRU)
+        // Insert another new key, which will evict key 4 (the LRU)
+        System.out.println();
+        System.out.println("Print Cache after 22 is added. 3 is last and gets removed");
         lruCache.put(22, 103222);
         lruCache.printCache();
-
+        //Remove the head to showcase that any node can be removed
+        System.out.println();
+        System.out.println("Print Cache after head is removed. 22 is removed");
         System.out.println("Remove Head");
         lruCache.remove(lruCache.head);
         lruCache.printCache();
+        //Remove the tail
+        System.out.println();
+        System.out.println("Print Cache after tail is removed. 4 is removed");
         System.out.println("Remove Tail");
         lruCache.remove(lruCache.tail);
         lruCache.printCache();
